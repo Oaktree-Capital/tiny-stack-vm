@@ -43,10 +43,10 @@ function run(p: Uint8Array, inp: Uint8Array) {
   const o = new Uint8Array(OMAX);
   let sp = 0; // data stack depth
   let cp = 0; // call stack depth
-  let ip = 0; // input bytes read
+  let ip = 0;
   let pc = 0; // program counter
-  let steps = 0; // instructions executed
-  let lo = 0; // output bytes written
+  let steps = 0;
+  let lo = 0;
   const end = (code: number) => ({ out: o.subarray(0, lo), code });
 
   for (;;) {
