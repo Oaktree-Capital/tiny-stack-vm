@@ -24,7 +24,7 @@ const next=pc+1+imm;
 if(next>program.length)return done(T_PC);
 if(sp<pops)return done(T_UNDER);
 if(sp-pops+pushes>STACK_MAX)return done(T_OVER);
-pc=next;
+pc=next;const d=((program[next-2]|program[next-1]<<8)<<16)>>16;
 switch(op){
 case 0x00:return done(0);
 case 0x01:stack[sp++]=(program[next-1]<<24)>>24;break;
@@ -58,10 +58,10 @@ else if(op===0x21)r=a<b?1:0;
 else r=(a>>>0)<(b>>>0)?1:0;
 stack[sp-2]=r;sp--;break;
 }
-case 0x30:pc=next+(((program[next-2]|program[next-1]<<8)<<16)>>16);break;
+case 0x30:pc=next+d;break;
 case 0x31:case 0x32:{
 const v=stack[--sp];
-if(op===0x31?v===0:v!==0)pc=next+(((program[next-2]|program[next-1]<<8)<<16)>>16);
+if(op===0x31?v===0:v!==0)pc=next+d;
 break;
 }
 case 0x33:if(cp===CALL_MAX)return done(T_CALL);calls[cp++]=next;pc=program[next-2]|program[next-1]<<8;break;
